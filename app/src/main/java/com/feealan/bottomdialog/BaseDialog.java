@@ -10,8 +10,8 @@ import android.view.WindowManager;
 
 /**
  * 选择器弹窗基类
- * @author fee
- * @created 2016/05/16
+ * @author fee https://github.com/FeeAlan/BootomDialog
+ * @created 2016/07/18
  */
 public class BaseDialog implements View.OnClickListener{
     protected Dialog  dialog;

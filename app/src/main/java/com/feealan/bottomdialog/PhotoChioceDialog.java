@@ -6,9 +6,8 @@ import android.view.View;
 /**
  *  图片选择弹出框
  *
- * @author fee
- * @version 1.0
- * @created 2016/04/20
+ * @author fee https://github.com/FeeAlan/BootomDialog
+ * @created 2016/07/18
  */
 public class PhotoChioceDialog extends BaseDialog{
     private ClickCallback clickCallback;

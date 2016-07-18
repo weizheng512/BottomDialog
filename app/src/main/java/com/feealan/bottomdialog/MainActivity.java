@@ -7,6 +7,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+/**
+ * @author fee https://github.com/FeeAlan/BootomDialog
+ * @created 2016/07/18
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button            btn;
