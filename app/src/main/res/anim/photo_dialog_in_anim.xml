@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android" >
+<!--
+    android:toXScale        结尾的X方向上相对自身的缩放比例，浮点值；
+    android:fromYScale    起始的Y方向上相对自身的缩放比例，浮点值，
+    android:toYScale        结尾的Y方向上相对自身的缩放比例，浮点值；
+    android:duration        动画持续时间，以毫秒为单位
+    android:fromYDelta    起始点Y轴从标，可以是数值、百分数、百分数p 三种样式；
+    android:toXDelta         结束点X轴坐标
+    android:toYDelta        结束点Y轴坐标
+-->
+    <translate
+        android:duration="500"
+        android:fromXDelta="0"
+        android:fromYDelta="1000"
+        android:toXDelta="0"
+        android:toYDelta="0" />
+
+</set>
