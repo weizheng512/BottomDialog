@@ -112,18 +112,15 @@
             @Override
             public void doAlbum() {
                 Toast.makeText(MainActivity.this,"选择相册",Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
             }
 
             @Override
             public void doCancel() {
-                dialog.dismiss();
             }
 
             @Override
             public void doCamera() {
                 Toast.makeText(MainActivity.this,"选择相机",Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
             }
         });
 	dialog.show();
