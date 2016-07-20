@@ -1,4 +1,4 @@
-package com.feealan.bottomdialog;
+package com.feealan.bottomdialog.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.feealan.bottomdialog.R;
 
 
 /**

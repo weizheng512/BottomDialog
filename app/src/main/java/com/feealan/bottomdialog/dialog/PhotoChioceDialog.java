@@ -1,7 +1,10 @@
-package com.feealan.bottomdialog;
+package com.feealan.bottomdialog.dialog;
 
 import android.content.Context;
 import android.view.View;
+
+import com.feealan.bottomdialog.R;
+import com.feealan.bottomdialog.dialog.BaseDialog;
 
 /**
  *  图片选择弹出框
@@ -9,7 +12,7 @@ import android.view.View;
  * @author fee https://github.com/FeeAlan/BootomDialog
  * @created 2016/07/18
  */
-public class PhotoChioceDialog extends BaseDialog{
+public class PhotoChioceDialog extends BaseDialog {
     private ClickCallback clickCallback;
     public PhotoChioceDialog(Context context){
         super(context);
