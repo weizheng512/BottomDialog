@@ -2,9 +2,9 @@ package com.feealan.bottomdialog;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -12,9 +12,13 @@ import android.widget.ImageView;
 
 import com.feealan.bottomdialog.dialog.PhotoChioceDialog;
 import com.feealan.bottomdialog.utils.ImageUtils;
+import com.feealan.bottomdialog.utils.Utility;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * @author fee https://github.com/FeeAlan/BootomDialog
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button            btn;
     private ImageView         img;
     private PhotoChioceDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 选择相机
      */
     private void chioceCamera() {
-
+        ImageUtils.getBitmapFromCarmera(this);
     }
 
     /**
@@ -66,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void chioceAlbum() {
         ImageUtils.getBitmapFromAlbum(this);
-
     }
 
     private void initView() {
@@ -87,17 +91,74 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ImageUtils.REQUEST_CODE_FROM_ALBUM) {
-            if (resultCode == RESULT_OK) {
-                try {
-                    final Uri imageUri = data.getData();
-                    final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                    img.setImageBitmap(selectedImage);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case ImageUtils.REQUEST_CODE_FROM_ALBUM:
+                    onSelectFromGalleryResult(data);
+                    break;
+                case ImageUtils.REQUEST_CODE_FROM_CARMERA:
+                    onSelectFromCameraResult(data);
+                    break;
+            }
+
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    if(userChoosenTask.equals("Take Photo"))
+//                        cameraIntent();
+//                    else if(userChoosenTask.equals("Choose from Library"))
+//                        galleryIntent();
+//                } else {
+////code for deny
+//                }
+                break;
+        }
+    }
+
+    /**
+     * 选择相机获取结果
+     * @param data
+     */
+    private void onSelectFromCameraResult(Intent data) {
+        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        //压缩
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        img.setImageBitmap(thumbnail);
+    }
+
+    /**
+     * 从相册返回的结果处理
+     * @param data
+     */
+    private void onSelectFromGalleryResult(Intent data) {
+        Bitmap bitmap = null;
+        if (data != null) {
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
+        img.setImageBitmap(bitmap);
     }
 }
