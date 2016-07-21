@@ -2,6 +2,7 @@ package com.feealan.bottomdialog;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -29,6 +30,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button            btn;
     private ImageView         img;
     private PhotoChioceDialog dialog;
+    private Uri               uri;
+    private String            userChoosenTask;
+    /**
+     * 检查权限
+     */
+    private boolean           result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +70,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 选择相机
      */
     private void chioceCamera() {
-        ImageUtils.getBitmapFromCarmera(this);
+
+        uri = ImageUtils.createImageFile();
+//        userChoosenTask = "Take Photo";
+//        if (result)
+        ImageUtils.openCarmera(this, uri);
     }
 
     /**
      * 选择相册
      */
     private void chioceAlbum() {
-        ImageUtils.getBitmapFromAlbum(this);
+//        userChoosenTask = "Choose from Library";
+//        if (result)
+        ImageUtils.openAlbum(this);
     }
 
     private void initView() {
@@ -83,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn:
+                result = Utility.checkPermission(MainActivity.this);
                 dialog.show();
                 break;
         }
@@ -97,29 +111,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     onSelectFromGalleryResult(data);
                     break;
                 case ImageUtils.REQUEST_CODE_FROM_CARMERA:
-                    onSelectFromCameraResult(data);
+                    img.setImageURI(uri);
                     break;
             }
 
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        switch (requestCode) {
+//            case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
 //                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 //                    if(userChoosenTask.equals("Take Photo"))
-//                        cameraIntent();
+//                        chioceCamera();
 //                    else if(userChoosenTask.equals("Choose from Library"))
-//                        galleryIntent();
+//                        chioceAlbum();
 //                } else {
 ////code for deny
 //                }
-                break;
-        }
-    }
+//                break;
+//        }
+//    }
 
     /**
      * 选择相机获取结果
