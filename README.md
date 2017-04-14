@@ -54,7 +54,7 @@
 	    }
 	}
 
-###PhotoChioceDialog
+### PhotoChioceDialog
 
 
 	public class PhotoChioceDialog extends BaseDialog{
