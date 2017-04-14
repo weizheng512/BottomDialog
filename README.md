@@ -55,6 +55,8 @@
 	}
 
 ###PhotoChioceDialog
+
+
 	public class PhotoChioceDialog extends BaseDialog{
 	    private ClickCallback clickCallback;
 	    public PhotoChioceDialog(Context context){
